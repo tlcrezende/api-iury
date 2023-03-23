@@ -5,9 +5,24 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise  :database_authenticatable, 
           :registerable,
-          :recoverable, 
-          :rememberable, 
+          # :recoverable, 
+          # :rememberable, 
           :validatable, 
-          :trackable
+          # :trackable,
+          authentication_keys: [:telefone]
   include DeviseTokenAuth::Concerns::User
+
+  validates :telefone, presence: true, uniqueness: true
+
+  before_validation do
+    self.uid = telefone if uid.blank?
+  end
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
+  end
 end
