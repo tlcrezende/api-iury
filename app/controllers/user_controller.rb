@@ -8,7 +8,6 @@ class UserController < ApplicationController
     
     def show 
         if params['id'].present?
-            byebug
             user = User.find(params['id'])
             render json: user, status: 200 unless user.nil?
             render json: {msg: 'usuário não encontrado'}, status: 404 if user.nil?
