@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_172225) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_23_183206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_graphql"
   enable_extension "pg_stat_statements"
@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_172225) do
     t.index ["month_id"], name: "index_pagamentos_on_month_id"
     t.index ["turma_id"], name: "index_pagamentos_on_turma_id"
     t.index ["user_id"], name: "index_pagamentos_on_user_id"
+  end
+
+  create_table "turma_alunos", force: :cascade do |t|
+    t.bigint "turma_id", null: false
+    t.bigint "user_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["turma_id"], name: "index_turma_alunos_on_turma_id"
+    t.index ["user_id"], name: "index_turma_alunos_on_user_id"
   end
 
   create_table "turmas", force: :cascade do |t|
@@ -100,4 +110,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_172225) do
   add_foreign_key "pagamentos", "months"
   add_foreign_key "pagamentos", "turmas"
   add_foreign_key "pagamentos", "users"
+  add_foreign_key "turma_alunos", "turmas"
+  add_foreign_key "turma_alunos", "users"
 end

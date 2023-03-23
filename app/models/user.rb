@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   validates :telefone, presence: true, uniqueness: true
 
   has_many :pagamento
+  has_many :turma_aluno, dependent: :destroy
 
   before_validation do
     self.uid = telefone if uid.blank?
