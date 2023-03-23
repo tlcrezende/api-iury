@@ -7,7 +7,13 @@ default: &default
 
 development:
   <<: *default
-  database_url: <%= ENV["DATABASE_URL"] %>
+  host: "db.mytyutiargnrggzujbwl.supabase.co"
+  name: "postgres"
+  port: 5432
+  user: "postgres"
+  password: "XP6oAG7aowQ4CFO4"
+
+  # database_url: "postgresql://postgres:XP6oAG7aowQ4CFO4@db.mytyutiargnrggzujbwl.supabase.co:5432/postgres"
 
 test:
   <<: *default
