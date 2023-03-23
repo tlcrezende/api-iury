@@ -1,0 +1,24 @@
+# versao mac
+version: "3.4"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    tty: true
+    stdin_open: true
+    ports:
+      - "3082:3000"
+    volumes:
+      - ./app:/api/app
+      - ./config:/api/config
+      - ./lib:/api/lib
+      - ./spec:/api/spec
+      - ./db:/api/db
+      - ./entrypoints:/api/entrypoints
+
+      - ./Gemfile:/api/Gemfile
+    entrypoint: ./entrypoints/entrypoint-dev.sh
+    environment:
+      RAILS_ENV: development
