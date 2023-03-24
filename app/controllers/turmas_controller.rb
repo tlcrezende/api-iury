@@ -1,13 +1,13 @@
-class TurmaController < ApplicationController
+class TurmasController < ApplicationController
   before_action :set_turma, only: %i[show update destroy]
 
   def index
-    turmas = Turma.all.select(:id, :sede, :dia, :horario, :professor)
+    turmas = Turma.all.includes(%i[user turma_aluno]) #.select(:id, :sede, :dia, :horario, :professor)
     render json: turmas, status: 200
   end
 
   def show
-    render json: @turma
+    render json: Turma.find(params[:id])
     # if params[:id]
     #   turma = Turma.find(params[:id])
     #   render json: turma, status: 200 unless turma.nil?
@@ -19,7 +19,7 @@ class TurmaController < ApplicationController
 
   def create
     t = Turma.create!(params.permit(:sede, :dia, :horario, :professor, :valor))
-    render json: {turma_id: t.id}, status: 200
+    render json: { turma_id: t.id }, status: 200
   end
 
   def update

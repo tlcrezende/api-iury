@@ -4,15 +4,15 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
 
   resources :pagamentos
-  get '/users', to: 'user#index'
-  get '/users/:id', to: 'user#show'
-  post '/users', to: 'user#create'
-  patch '/users/:id', to: 'user#update'
+  get '/users', to: 'users#index'
+  get '/users/:id', to: 'users#show'
+  post '/users', to: 'users#create'
+  patch '/users/:id', to: 'users#update'
 
-  get '/turmas', to: 'turma#index'
-  get '/turmas/:id', to: 'turma#show'
-  post '/turmas', to: 'turma#create'
-  patch '/turmas/:id', to: 'turma#update'
+  get '/turmas', to: 'turmas#index'
+  get '/turmas/:id', to: 'turmas#show'
+  post '/turmas', to: 'turmas#create'
+  patch '/turmas/:id', to: 'turmas#update'
 
   get '/process', to: 'pagamentos#teste'
 end

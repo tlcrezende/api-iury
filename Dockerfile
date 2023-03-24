@@ -1,4 +1,4 @@
-FROM ruby:3.1.3
+FROM ruby:3.1.2
 
 RUN apt-get install bash
 
