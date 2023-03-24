@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
   has_many :pagamento
   has_many :turma_aluno, dependent: :destroy
+  has_many :turma, through: :turma_aluno
 
   before_validation do
     self.uid = telefone if uid.blank?

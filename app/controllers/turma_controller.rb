@@ -2,23 +2,24 @@ class TurmaController < ApplicationController
   before_action :set_turma, only: %i[show update destroy]
 
   def index
-    turmas = Turma.all
+    turmas = Turma.all.select(:id, :sede, :dia, :horario, :professor)
     render json: turmas, status: 200
   end
 
   def show
-    if params[:id]
-      user = Turma.find(params[:id])
-      render json: user, status: 200 unless user.nil?
-      render json: { msg: 'usuário não encontrado' }, status: 404 if user.nil?
-    else
-      render json: { msg: 'parametro id faltando' }, status: 404
-    end
+    render json: @turma
+    # if params[:id]
+    #   turma = Turma.find(params[:id])
+    #   render json: turma, status: 200 unless turma.nil?
+    #   render json: { msg: 'usuário não encontrado' }, status: 404 if turma.nil?
+    # else
+    #   render json: { msg: 'parametro id faltando' }, status: 404
+    # end
   end
 
   def create
-    Turma.create!(params.permit(:sede, :dia, :horario, :professor, :valor))
-    render json: 'turma criada com sucesso', status: 200
+    t = Turma.create!(params.permit(:sede, :dia, :horario, :professor, :valor))
+    render json: {turma_id: t.id}, status: 200
   end
 
   def update

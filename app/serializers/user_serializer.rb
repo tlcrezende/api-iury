@@ -1,3 +1,7 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id
+  has_many :turma
+
+  def attributes(*args)
+    object.attributes.symbolize_keys
+  end
 end

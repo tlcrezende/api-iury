@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_183206) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_24_040052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_graphql"
   enable_extension "pg_stat_statements"
@@ -97,12 +97,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_183206) do
     t.datetime "data_inicio"
     t.string "alergias"
     t.string "expo_push_token"
-    t.integer "vencimento"
     t.integer "desconto"
     t.json "tokens"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "dia_vencimento"
     t.index ["telefone"], name: "index_users_on_telefone", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end

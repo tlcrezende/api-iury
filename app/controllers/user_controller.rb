@@ -4,6 +4,11 @@ class UserController < ApplicationController
 
   def index
     @users = User.all
+    # @users = User.left_joins(:turma_aluno).where(perfil: 'aluno').group('users.id').select(
+    #   'users.*', 
+    #   "array_agg(json_build_object(
+    #     ''
+    #   ))") 
     render json: @users
   end
 
@@ -12,8 +17,11 @@ class UserController < ApplicationController
   end
 
   def create
-    byebug
-    @user = User.create!(params.permit(:telefone, :password, :apelido))
+    password = 
+    @user = User.create!(params.permit(:telefone, :apelido, :responsavel_nome, :responsavel_telefone, :data_inicio, :dia_vencimento))
+    @user.password = Time.zone.now
+    @user.save
+    render json: {aluno_id: @user.id}
     # render json: @user, status: :created if @user.save
     # render json: @user.errors, status: :unprocessable_entity unless @user.save
   end
@@ -37,8 +45,8 @@ class UserController < ApplicationController
   end
 
   def user_params
-    params.permit(:name, :data_nascimento, :email, :tipo_sanguineo, :tamanho_camisa, :tamanho_pe, :desconto,
+    params.permit(:name, :data_nascimento, :email, :tipo_sanguineo, :tamanho_camisa, :tamanho_pe, :desconto, :apelido,
                   :contato_emergencia_nome, :contato_emergencia_telefone, :responsavel_nome, :responsavel_parentesco,
-                  :responsavel_telefone, :endereco, :cep, :foto_id, :data_inicio, :alergias, :expo_push_token, :vencimento)
+                  :responsavel_telefone, :endereco, :cep, :foto_id, :data_inicio, :alergias, :expo_push_token, :dia_vencimento)
   end
 end
