@@ -3,12 +3,12 @@ class UserController < ApplicationController
   before_action :authenticate_user!, except: :create
 
   def index
-    @users = User.all
+    @users = User.all.includes(%i[turma turma_aluno])
     # @users = User.left_joins(:turma_aluno).where(perfil: 'aluno').group('users.id').select(
-    #   'users.*', 
+    #   'users.*',
     #   "array_agg(json_build_object(
     #     ''
-    #   ))") 
+    #   ))")
     render json: @users
   end
 
@@ -17,11 +17,11 @@ class UserController < ApplicationController
   end
 
   def create
-    password = 
-    @user = User.create!(params.permit(:telefone, :apelido, :responsavel_nome, :responsavel_telefone, :data_inicio, :dia_vencimento))
+    @user = User.create!(params.permit(:telefone, :apelido, :responsavel_nome, :responsavel_telefone, :data_inicio,
+                                       :dia_vencimento))
     @user.password = Time.zone.now
     @user.save
-    render json: {aluno_id: @user.id}
+    render json: { aluno_id: @user.id }
     # render json: @user, status: :created if @user.save
     # render json: @user.errors, status: :unprocessable_entity unless @user.save
   end

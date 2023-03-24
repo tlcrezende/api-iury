@@ -10,7 +10,6 @@ class PagamentosController < ApplicationController
     render json: @pagamento
   end
 
-  # POST /pagamentos
   def create
     @pagamento = Pagamento.new(pagamento_params)
 
@@ -31,6 +30,11 @@ class PagamentosController < ApplicationController
 
   def destroy
     @pagamento.destroy
+  end
+
+  def teste
+    p 'entrei no teste'
+    NubankService.process
   end
 
   private

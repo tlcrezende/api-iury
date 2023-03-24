@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :nubanks
   resources :turma_alunos
   mount_devise_token_auth_for 'User', at: 'auth'
 
@@ -12,4 +13,6 @@ Rails.application.routes.draw do
   get '/turmas/:id', to: 'turma#show'
   post '/turmas', to: 'turma#create'
   patch '/turmas/:id', to: 'turma#update'
+
+  get '/process', to: 'pagamentos#teste'
 end
