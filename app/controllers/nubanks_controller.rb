@@ -26,6 +26,8 @@ class NubanksController < ApplicationController
         tipo: 'pix'
       )
     end
+
+    render json: "#{resposta['processed_transactions'].count} transações processadas com sucesso!"
   end
 
   # melhorias: fazer blocos de catch try, fazer tabela de logs de requests
@@ -41,6 +43,7 @@ class NubanksController < ApplicationController
     mes = Month.where(pagamento_gerado: false).first
     # Fazer factory and faker para popular tests rapidos
 
+    qnt_pagamentos = 0
     users.each do |user|
       pagamento = Pagamento.create!(
         user_id: user.id,
@@ -52,8 +55,10 @@ class NubanksController < ApplicationController
 
       qrcode[:pagamentos] << {
         aluno_pagamento_id: pagamento.id,
-        valor_mensalidade: pagamento.valor
+        valor_mensalidade: 1
       }
+
+      qnt_pagamentos += 1
     end
 
     mes.update(pagamento_gerado: true)
@@ -71,6 +76,6 @@ class NubanksController < ApplicationController
       )
     end
 
-    render json: "Foram gerados #{users.count} pagamentos para o mês de #{mes.mes} de #{mes.ano} com sucesso"
+    render json: "Foram gerados #{qnt_pagamentos} pagamentos para o mês de #{mes.mes} de #{mes.ano} com sucesso"
   end
 end
