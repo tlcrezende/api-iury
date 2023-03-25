@@ -29,4 +29,5 @@
 /config/master.key
 Gemfile.lock
 .env
+.byebug_history
 

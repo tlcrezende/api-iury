@@ -13,8 +13,9 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   validates :telefone, presence: true, uniqueness: true
+  validates :dia_vencimento, presence: true
 
-  has_many :pagamentos
+  has_many :pagamentos, dependent: :destroy
   has_many :turma_alunos, dependent: :destroy
   has_many :turmas, through: :turma_alunos
 

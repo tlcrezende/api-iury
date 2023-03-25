@@ -1,3 +1,3 @@
 class Month < ApplicationRecord
-  has_many :pagamento
+  has_many :pagamentos
 end

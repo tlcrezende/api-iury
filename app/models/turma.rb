@@ -1,6 +1,5 @@
 class Turma < ApplicationRecord
   validates :sede, :dia, :horario, :valor, :professor, presence: true
-  has_many :pagamento
-  has_many :turma_aluno, dependent: :destroy
-  has_many :user, through: :turma_aluno
+  has_many :turma_alunos, dependent: :destroy
+  has_many :users, through: :turma_alunos
 end
