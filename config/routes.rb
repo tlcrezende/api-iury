@@ -15,4 +15,11 @@ Rails.application.routes.draw do
   patch '/turmas/:id', to: 'turmas#update'
 
   get '/process', to: 'pagamentos#teste'
+
+
+  scope :aluno, path: 'aluno' do
+    get '/info', to: 'users#info'
+    get '/pagamentos', to: 'pagamentos#aluno_index'
+  end
+  # Ex:- scope :active, -> {where(:active => true)}
 end

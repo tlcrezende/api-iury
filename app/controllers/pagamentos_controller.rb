@@ -37,6 +37,12 @@ class PagamentosController < ApplicationController
     NubankService.process
   end
 
+
+  # ALUNO
+  def aluno_index
+    render json: current_user.pagamentos.all
+  end
+
   private
 
   def set_pagamento

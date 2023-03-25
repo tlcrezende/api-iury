@@ -12,6 +12,10 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+  def info
+    render json: current_user
+  end
+
   def show
     render json: @user
   end
