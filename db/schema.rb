@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_25_162732) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_184101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_graphql"
   enable_extension "pg_stat_statements"
@@ -75,7 +75,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_162732) do
   end
 
   create_table "pagamentos", force: :cascade do |t|
-    t.bigint "turma_id", null: false
     t.bigint "user_id", null: false
     t.string "qrcode"
     t.integer "dia_vencimento"
@@ -87,7 +86,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_162732) do
     t.datetime "updated_at", null: false
     t.integer "tipo"
     t.index ["month_id"], name: "index_pagamentos_on_month_id"
-    t.index ["turma_id"], name: "index_pagamentos_on_turma_id"
     t.index ["user_id"], name: "index_pagamentos_on_user_id"
   end
 
@@ -148,7 +146,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_162732) do
 
   add_foreign_key "nubanks", "pagamentos"
   add_foreign_key "pagamentos", "months"
-  add_foreign_key "pagamentos", "turmas"
   add_foreign_key "pagamentos", "users"
   add_foreign_key "turma_alunos", "turmas"
   add_foreign_key "turma_alunos", "users"
