@@ -14,5 +14,6 @@ Rails.application.routes.draw do
   post '/turmas', to: 'turmas#create'
   patch '/turmas/:id', to: 'turmas#update'
 
-  get '/process', to: 'pagamentos#teste'
+  get '/processed_transaction', to: 'nubanks#processed_transaction'
+  post '/qrcode', to: 'nubanks#qrcode'
 end

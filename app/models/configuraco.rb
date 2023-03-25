@@ -1,2 +1,0 @@
-class Configuraco < ApplicationRecord
-end
