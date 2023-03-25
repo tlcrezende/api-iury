@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   validates :telefone, presence: true, uniqueness: true
 
-  has_many :pagamentos
+  has_many :pagamentos, dependent: :destroy
   has_many :turma_alunos, dependent: :destroy
   has_many :turmas, through: :turma_alunos
 

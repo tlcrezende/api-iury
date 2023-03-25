@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  has_many :turma
+  has_many :turmas
 
   def attributes(*args)
     object.attributes.symbolize_keys

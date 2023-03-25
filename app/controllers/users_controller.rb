@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
-  before_action :authenticate_user!, except: :create
+  # before_action :authenticate_user!, except: :create
 
   def index
-    @users = User.all.includes(%i[turma turma_aluno])
+    @users = User.all.includes(%i[turmas turma_alunos])
     # @users = User.left_joins(:turma_aluno).where(perfil: 'aluno').group('users.id').select(
     #   'users.*',
     #   "array_agg(json_build_object(
