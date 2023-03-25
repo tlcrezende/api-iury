@@ -1,8 +1,15 @@
-class TurmasSerializer < ActiveModel::Serializer
-  has_many :user
+class TurmaSerializer < ActiveModel::Serializer
+  # has_many :user
 
-  def attributes(*args)
-    # byebug
-    object.attributes.symbolize_keys
+  def attributes(*_args)
+    {
+      id: object.id,
+      sede: object.sede,
+      dia: object.dia,
+      horario: object.horario,
+      professor: object.professor,
+      valor: object.valor,
+      alunos: object.user.map { |user| { name: user[:name], apelido: user[:apelido] } }
+    }
   end
 end

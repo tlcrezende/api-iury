@@ -62,3 +62,5 @@ gem 'byebug', '~> 11.1'
 gem "bullet", "~> 7.0"
 
 gem "audited", "~> 5.3"
+
+gem "httparty", "~> 0.21.0"

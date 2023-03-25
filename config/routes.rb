@@ -22,4 +22,6 @@ Rails.application.routes.draw do
     get '/pagamentos', to: 'pagamentos#aluno_index'
   end
   # Ex:- scope :active, -> {where(:active => true)}
+  get '/processed_transaction', to: 'nubanks#processed_transaction'
+  post '/qrcode', to: 'nubanks#qrcode'
 end

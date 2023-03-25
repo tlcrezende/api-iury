@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_24_062850) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_162732) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_graphql"
   enable_extension "pg_stat_statements"
@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_24_062850) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "configuracos", force: :cascade do |t|
+  create_table "configs", force: :cascade do |t|
     t.string "last_processed_transaction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
