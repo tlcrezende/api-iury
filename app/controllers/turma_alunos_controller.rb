@@ -29,6 +29,18 @@ class TurmaAlunosController < ApplicationController
     end
   end
 
+  def update_all
+    TurmaAluno.where(turma_id: params[:turma_id]).destroy_all
+    params[:user_id].each do |user|
+      TurmaAluno.create(
+        turma_id: params[:turma_id],
+        user_id: user,
+        status: 'ativo'
+      )
+    end
+    render json: ''
+  end
+
   def destroy
     @turma_aluno.destroy
   end
