@@ -3,7 +3,7 @@ class TurmasController < ApplicationController
 
   def index
     turmas = Turma.all.select(:id, :sede, :dia, :horario, :professor)
-    render json: turmas, status: 200
+    render json: turmas, status: 200, adapter: nil
   end
 
   def show

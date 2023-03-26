@@ -10,25 +10,25 @@
 
 # p 'Creating Turmas....'
 # Turma.create(
-#   sede: 'Sede 1',
-#   dia: 'Segunda-Quarta',
-#   horario: '18h',
+#   sede: 'Arclo',
+#   dia: 'Segunda e Quarta',
+#   horario: '2023-03-26 21:0:0 +0000',
 #   professor: Faker::Name.first_name,
 #   valor: Faker::Number.between(from: 1, to: 3)
 # )
 
 # Turma.create(
-#   sede: 'Sede 2',
-#   dia: 'Terça-Quinta',
-#   horario: '19h',
+#   sede: 'Viva Esportes',
+#   dia: 'Terça e Quinta',
+#   horario: '2023-03-26 19:0:0 +0000',
 #   professor: Faker::Name.first_name,
 #   valor: Faker::Number.between(from: 1, to: 3)
 # )
 
 # Turma.create(
-#   sede: 'Sede 1',
-#   dia: 'Sábado-Domingo',
-#   horario: '8h',
+#   sede: 'Arclo',
+#   dia: 'Outros',
+#   horario: '2023-03-26 8:0:0 +0000',
 #   professor: Faker::Name.first_name,
 #   valor: Faker::Number.between(from: 1, to: 3)
 # )
