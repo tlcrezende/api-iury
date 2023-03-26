@@ -30,12 +30,28 @@ class TurmaAlunosController < ApplicationController
   end
 
   def update_all
-    TurmaAluno.where(turma_id: params[:turma_id]).destroy_all
-    params[:user_id].each do |user|
+    turma_alunos = TurmaAluno.where(turma_id: params[:turma_id], status: 'ativo')
+    turma_atual = []
+    turma_atualizacao = params[:user_id]
+
+    turma_alunos.each { |aluno| turma_atual << aluno.user_id }
+
+    alunos_entraram = (turma_atualizacao + turma_atual) - turma_atual
+    alunos_sairam = (turma_atualizacao + turma_atual) - turma_atualizacao
+
+    alunos_entraram.each do |entrou|
       TurmaAluno.create(
         turma_id: params[:turma_id],
-        user_id: user,
+        user_id: entrou,
         status: 'ativo'
+      )
+    end
+
+    turma_alunos.each do |aluno|
+      next unless alunos_sairam.include?(aluno.user_id)
+
+      aluno.update(
+        status: 'inativo'
       )
     end
     render json: ''
