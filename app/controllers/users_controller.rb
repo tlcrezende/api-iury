@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
 
   def firebase
-    cred = Google::Cloud::Firestore::Credentials.new('servicekey.json')
+    cred = Google::Cloud::Firestore::Credentials.new(JSON.parse(ENV['FIREBASE_SERVICE_KEY']))
     db = Google::Cloud::Firestore.new(
       project_id: 'ctis-91c72',
       credentials: cred
