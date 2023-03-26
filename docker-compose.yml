@@ -9,7 +9,7 @@ services:
     tty: true
     stdin_open: true
     ports:
-      - "3082:3000"
+      - "3082:8080"
     volumes:
       - ./app:/api/app
       - ./config:/api/config

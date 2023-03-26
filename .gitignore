@@ -30,4 +30,5 @@
 Gemfile.lock
 .env
 .byebug_history
+fly.toml
 

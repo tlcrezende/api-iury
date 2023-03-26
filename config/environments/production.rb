@@ -72,6 +72,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.hosts << /[a-z0-9-.]+\.ngrok\.io/
+  config.hosts << "ctis-api.fly.dev"
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"

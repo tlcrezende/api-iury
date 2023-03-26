@@ -9,5 +9,10 @@ RUN bundle install
 
 COPY . .
 
-EXPOSE 3082
+EXPOSE 8080
+ENV PORT=8080
+ENV RAILS_ENV='production'
 RUN chmod +x ./entrypoints/entrypoint-dev.sh
+RUN chmod +x ./entrypoints/entrypoint-prod.sh
+
+ENTRYPOINT [ "./entrypoints/entrypoint-prod.sh" ]
