@@ -64,7 +64,7 @@ class PagamentosController < ApplicationController
   def atualizar_status
     pagamentos_status_gerado = Pagamento.where(status: 'gerado')
     pagamentos_status_gerado.each do |pagamento|
-      vencimento = "#{pagamento.month.mes_numero}/#{pagamento.dia_vencimento}".to_date
+      vencimento = "#{pagamento.month.mes_numero}/#{pagamento.dia_vencimento}/#{pagamento.month.ano}".to_date
       pagamento.update(status: 'pendente') if Time.zone.now > vencimento
     end
   end
