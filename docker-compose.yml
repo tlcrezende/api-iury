@@ -19,6 +19,7 @@ services:
       - ./entrypoints:/api/entrypoints
 
       - ./Gemfile:/api/Gemfile
+      - ./servicekey.json:/api/servicekey.json
     entrypoint: ./entrypoints/entrypoint-dev.sh
     environment:
       RAILS_ENV: development

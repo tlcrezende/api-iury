@@ -66,3 +66,5 @@ gem "audited", "~> 5.3"
 gem "httparty", "~> 0.21.0"
 
 gem "firebase", "~> 0.2.8"
+
+gem "google-cloud-firestore", "~> 2.11"
