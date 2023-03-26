@@ -12,10 +12,6 @@ class UsersController < ApplicationController
     render json: @users
   end
 
-  def info
-    render json: current_user
-  end
-
   def show
     render json: @user
   end
@@ -40,6 +36,19 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
+  end
+
+  # ALUNO
+  def aluno_info
+    render json: current_user
+  end
+
+  def aluno_update
+    if current_user.update(user_params)
+      render json: current_user
+    else
+      render json: current_user.errors, status: :unprocessable_entity
+    end
   end
 
   private

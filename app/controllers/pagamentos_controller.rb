@@ -1,5 +1,6 @@
 class PagamentosController < ApplicationController
-  before_action :set_pagamento, only: %i[show update destroy]
+  before_action :set_pagamento, only: %i[show update destroy, aluno_show]
+  before_action :authenticate_user!
 
   def index
     pagamentos = Pagamento.all
@@ -40,7 +41,13 @@ class PagamentosController < ApplicationController
 
   # ALUNO
   def aluno_index
-    render json: current_user.pagamentos.all
+    render json: current_user.pagamentos.joins(:month).select(
+      :id, :data_pagamento, :status, 'months.mes', 'months.ano', 'months.id as mes_id'
+    ), adapter: nil
+  end
+
+  def aluno_show
+    render json: @pagamento.attributes.merge(@pagamento.month.attributes), adapter: nil
   end
 
   private

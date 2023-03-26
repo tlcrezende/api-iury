@@ -18,10 +18,13 @@ Rails.application.routes.draw do
 
 
   scope :aluno, path: 'aluno' do
-    get '/info', to: 'users#info'
+    get '/info', to: 'users#aluno_info'
+    patch '', to: 'users#aluno_update'
+
     get '/pagamentos', to: 'pagamentos#aluno_index'
+    get '/pagamentos/:id', to: 'pagamentos#aluno_show'
   end
   # Ex:- scope :active, -> {where(:active => true)}
-  get '/processed_transaction', to: 'nubanks#processed_transaction'
+  post '/processed_transaction', to: 'nubanks#processed_transaction'
   post '/qrcode', to: 'nubanks#qrcode'
 end
