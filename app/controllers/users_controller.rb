@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   # before_action :authenticate_user!, except: :create
 
   def index
+    # TODO: Arrumar esse endpoint: (ta vindo aluno=>turma=>aluno)
     @users = User.all.includes(%i[turmas turma_alunos])
     # @users = User.left_joins(:turma_aluno).where(perfil: 'aluno').group('users.id').select(
     #   'users.*',
