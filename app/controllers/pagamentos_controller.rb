@@ -1,6 +1,7 @@
 class PagamentosController < ApplicationController
-  before_action :set_pagamento, only: %i[show update destroy, aluno_show]
-  before_action :authenticate_user!
+  before_action :set_pagamento, only: %i[show update destroy aluno_show]
+  # before_action :authenticate_user!
+  before_action :atualizar_status, only: %i[index aluno_index]
 
   def index
     pagamentos = Pagamento.all
@@ -38,7 +39,6 @@ class PagamentosController < ApplicationController
     NubankService.process
   end
 
-
   # ALUNO
   def aluno_index
     render json: current_user.pagamentos.joins(:month).select(
@@ -59,5 +59,13 @@ class PagamentosController < ApplicationController
   def pagamento_params
     params.require(:pagamento).permit(:turma_id, :user_id, :qrcode, :dia_vencimento, :valor, :month_id,
                                       :data_pagamento, :status)
+  end
+
+  def atualizar_status
+    pagamentos_status_gerado = Pagamento.where(status: 'gerado')
+    pagamentos_status_gerado.each do |pagamento|
+      vencimento = "#{pagamento.month.mes_numero}/#{pagamento.dia_vencimento}".to_date
+      pagamento.update(status: 'pendente') if Time.zone.now > vencimento
+    end
   end
 end

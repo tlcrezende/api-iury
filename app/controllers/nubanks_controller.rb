@@ -20,6 +20,7 @@ class NubanksController < ApplicationController
 
       pagamento = Pagamento.find(transaction['aluno_pagamento_id'])
 
+      # tipo da tabela pagamento é um enum a ser feito
       pagamento.update(
         status: 'pago',
         data_pagamento: transaction['data_pagamento'],

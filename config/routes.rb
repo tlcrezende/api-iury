@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   post '/turmas', to: 'turmas#create'
   patch '/turmas/:id', to: 'turmas#update'
 
-  get '/process', to: 'pagamentos#teste'
-
-
   scope :aluno, path: 'aluno' do
     get '/info', to: 'users#aluno_info'
     patch '', to: 'users#aluno_update'
