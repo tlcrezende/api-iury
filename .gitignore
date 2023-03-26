@@ -32,3 +32,6 @@ Gemfile.lock
 .byebug_history
 fly.toml
 
+
+# Ignore application configuration
+/config/application.yml

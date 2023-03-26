@@ -26,4 +26,6 @@ Rails.application.routes.draw do
   # Ex:- scope :active, -> {where(:active => true)}
   post '/processed_transaction', to: 'nubanks#processed_transaction'
   post '/qrcode', to: 'nubanks#qrcode'
+
+  patch '/turma_alunos/update_all/:turma_id', to: 'turma_alunos#update_all'
 end
