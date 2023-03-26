@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   post '/users', to: 'users#create'
   patch '/users/:id', to: 'users#update'
 
+  get '/firebase', to: 'users#firebase'
+
   get '/turmas', to: 'turmas#index'
   get '/turmas/:id', to: 'turmas#show'
   post '/turmas', to: 'turmas#create'
