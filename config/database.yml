@@ -7,11 +7,11 @@ default: &default
 
 development:
   <<: *default
-  host: "db.mytyutiargnrggzujbwl.supabase.co"
+  host: ENV['DATABASE_HOST']
   name: "postgres"
   port: 5432
   user: "postgres"
-  password: "XP6oAG7aowQ4CFO4"
+  password: ENV['DATABASE_PASSWORD']
 
   # database_url: "postgresql://postgres:XP6oAG7aowQ4CFO4@db.mytyutiargnrggzujbwl.supabase.co:5432/postgres"
 

@@ -68,3 +68,5 @@ gem "httparty", "~> 0.21.0"
 gem "firebase", "~> 0.2.8"
 
 gem "google-cloud-firestore", "~> 2.11"
+
+gem "figaro", "~> 1.2"
