@@ -2,8 +2,8 @@ class TurmasController < ApplicationController
   before_action :set_turma, only: %i[show update destroy]
 
   def index
-    turmas = Turma.all.select(:id, :sede, :dia, :horario, :professor)
-    render json: turmas, status: 200, adapter: nil
+    turmas = Turma.all.select(:id, :sede, :dia, :horario, :professor, :valor)
+    render json: turmas, status: 200
   end
 
   def show
