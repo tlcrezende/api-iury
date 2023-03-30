@@ -29,4 +29,6 @@ Rails.application.routes.draw do
   post '/qrcode', to: 'nubanks#qrcode'
 
   patch '/turma_alunos/update_all/:turma_id', to: 'turma_alunos#update_all'
+
+  get '/estatisticas', to: 'estatistica#index'
 end
