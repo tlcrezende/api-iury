@@ -13,16 +13,59 @@ class PagamentosController < ApplicationController
   end
 
   def create
-    @pagamento = Pagamento.new(pagamento_params)
+    if params[:dia_vencimento]
+      dia_vencimento = Date.parse(params[:dia_vencimento]).day
+      mes = Date.parse(params[:dia_vencimento]).month
+      ano = Date.parse(params[:dia_vencimento]).year
+      month = Month.where(mes_numero: mes, ano: ano.to_s).first
+      @pagamento = Pagamento.create(user_id: params[:user_id], 
+        valor: params[:valor],
+        status: "gerado", 
+        dia_vencimento:, 
+        month_id: month.id)
+        
+      if @pagamento.save
+        qrcode = { pagamentos: [] }
+        qrcode[:pagamentos] << {
+          aluno_pagamento_id: @pagamento.id,
+          valor_mensalidade: @pagamento.valor
+        }
+          
+        uri = 'https://ctis-api-lrzbakfyzq-uc.a.run.app/generate_payment_qrcode'
+        headers = { 'Content-Type' => 'application/json' }
+        response = HTTParty.post(uri, headers:, body: qrcode.to_json)
 
-    if @pagamento.save
-      render json: @pagamento, status: :created, location: @pagamento
+        nubank_qrcodes = JSON.parse(response.body)
+
+        @pagamento.update(qrcode: nubank_qrcodes['pagamentos'][0]['qrcode'])
+
+        render json: @pagamento, status: :created, location: @pagamento
+      else
+        render json: @pagamento.errors, status: :unprocessable_entity
+      end
     else
-      render json: @pagamento.errors, status: :unprocessable_entity
+      render json: 'dia_vencimento faltando', status: :unprocessable_entity
     end
   end
 
   def update
+    if params[:valor] != @pagamento.valor
+      qrcode = { pagamentos: [] }
+        qrcode[:pagamentos] << {
+        aluno_pagamento_id: @pagamento.id,
+        valor_mensalidade: @pagamento.valor
+      }
+        
+      uri = 'https://ctis-api-lrzbakfyzq-uc.a.run.app/generate_payment_qrcode'
+      headers = { 'Content-Type' => 'application/json' }
+      response = HTTParty.post(uri, headers:, body: qrcode.to_json)
+
+      nubank_qrcodes = JSON.parse(response.body)
+
+      @pagamento.update(qrcode: nubank_qrcodes['pagamentos'][0]['qrcode'])
+      @pagamento.update(pagamento_params)
+    end
+
     if @pagamento.update(pagamento_params)
       render json: @pagamento
     else
@@ -57,7 +100,7 @@ class PagamentosController < ApplicationController
   end
 
   def pagamento_params
-    params.require(:pagamento).permit(:turma_id, :user_id, :qrcode, :dia_vencimento, :valor, :month_id,
+    params.require(:pagamento).permit(:user_id, :dia_vencimento, :valor, :month_id,
                                       :data_pagamento, :status)
   end
 
