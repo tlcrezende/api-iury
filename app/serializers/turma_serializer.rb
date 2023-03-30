@@ -9,7 +9,7 @@ class TurmaSerializer < ActiveModel::Serializer
       horario: object.horario,
       professor: object.professor,
       valor: object.valor,
-      alunos: object.users.map { |user| { name: user[:name], apelido: user[:apelido] } }
+      alunos: object.turma_alunos.filter { |ta| ta.status == 'ativo' }.map { |ta| { name: ta.user[:name], apelido: ta.user[:apelido] } }
     }
   end
 end

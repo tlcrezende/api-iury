@@ -36,8 +36,8 @@ class TurmaAlunosController < ApplicationController
 
     turma_alunos.each { |aluno| turma_atual << aluno.user_id }
 
-    alunos_entraram = (turma_atualizacao + turma_atual) - turma_atual
-    alunos_sairam = (turma_atualizacao + turma_atual) - turma_atualizacao
+    alunos_entraram = turma_atualizacao - turma_atual
+    alunos_sairam = turma_atual - turma_atualizacao
 
     alunos_entraram.each do |entrou|
       TurmaAluno.create(

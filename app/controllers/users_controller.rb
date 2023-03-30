@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def index
     # TODO: Arrumar esse endpoint: (ta vindo aluno=>turma=>aluno)
-    @users = User.all.includes(%i[turmas turma_alunos])
+    @users = User.all.includes(%i[turmas turma_alunos pagamentos])
     # @users = User.joins(:turma_alunos).where(turma_alunos: { status: 'ativo' })
     # @users = User.left_joins(:turma_aluno).where(perfil: 'aluno').group('users.id').select(
     #   'users.*',
