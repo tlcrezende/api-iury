@@ -4,7 +4,7 @@ class UserSerializer < ActiveModel::Serializer
   has_many :pagamentos
 
   def attributes(*_args)
-    object.turma_alunos = object.turma_alunos.filter { |user| user.status == 'ativo' }
+    object.turma_alunos = object.turma_alunos.filter { |turma_aluno| turma_aluno.status == 'ativo' }
     object.attributes.symbolize_keys
   end
 end
