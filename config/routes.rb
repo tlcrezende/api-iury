@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  get 'months/index'
   get 'estatistica/index'
   resources :nubanks
+  resources :months
   resources :turma_alunos
   mount_devise_token_auth_for 'User', at: 'auth'
 
