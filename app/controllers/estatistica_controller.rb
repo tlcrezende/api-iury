@@ -15,7 +15,7 @@ class EstatisticaController < ApplicationController
     (primeiro_mes.to_i..ultimo_mes.to_i).each do |mes|
       next unless query.keys.filter { |key| key[0] == mes }.present?
 
-            resultado << {
+      resultado << {
         mes: query.filter { |key| key[0] == mes }.keys[0][2],
         ano: query.filter { |key| key[0] == mes }.keys[0][3],
         atrasado: query.filter { |key| key[0] == mes }.filter { |key| key[1] == 'pendente' }.values.sum,
@@ -31,36 +31,15 @@ class EstatisticaController < ApplicationController
                       key[0] == mes
                     end.filter { |key| key[1] == 'pago' }.filter { |key| key[4] == 'dinheiro' }.values.sum
         }
-
       }
     end
 
-    # ultimo_mes
-    # soma = 0
-    # resultado = []
-    # {
-    #   mes:
-    #   ano:
-    #   pago: {
-    #     total:
-    #     pix:
-    #     cartao:
-    #     dinheiro:
-    #   }
-    #   atrasado_total:
-    # }
-    # query.each do |key, sum|
-    #   if key[0] == primeiro_mes
-    #     # if key[2] == 'pago' && key[5] != nil
-
-    #     # end
-    #   else
-
-    #   end
-
-    # end
-    # total pago por mes em pix, dinheiro, cartão
-    # render json: query.filter { |key, _value| key[4] == 'dinheiro' && key[0] == 14 }.values
-    render json: resultado
+    users_sede = User.joins(turmas: [:turma_alunos])
+    .where(turmas: {turma_alunos: {status: 'ativo'}})
+    .group('turmas.sede')
+    .select('COUNT(DISTINCT users.id) AS alunos, turmas.sede')
+    total_alunos = users_sede.reduce(0) {|acc, cur| acc + cur.alunos}
+    # render json: total_alunos
+    render json: {total_alunos: total_alunos, sede: users_sede, receita_tota_pago: receita_pago, receita_total_atrasada: receita_atrasada, mensal: resultado}, adapter: nil
   end
 end
