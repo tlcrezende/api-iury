@@ -1,16 +1,12 @@
 class NubanksController < ApplicationController
-  require 'httparty'
+  # require 'httparty'
 
   def processed_transaction
-    last_processed_transaction = Config.last.last_processed_transaction
-    uri = URI("https://ctis-api-lrzbakfyzq-uc.a.run.app/process_all_transactions?last_processed_transaction=#{last_processed_transaction}")
-    response = Net::HTTP.get(uri)
-    resposta = JSON.parse(response)
+    nubank = NubankService.connect_process
 
-    # Colocar depois num block de try catch
-    Config.create(last_processed_transaction: resposta['last_processed_transaction'])
+    Config.create(last_processed_transaction: nubank['last_processed_transaction'])
 
-    resposta['processed_transactions'].each do |transaction|
+    nubank['processed_transactions'].each do |transaction|
       Nubank.create(
         pagamento_id: transaction['aluno_pagamento_id'],
         status: transaction['status'],
@@ -18,16 +14,16 @@ class NubanksController < ApplicationController
         transaction_id: transaction['transaction_id']
       )
 
-      pagamento = Pagamento.find(transaction['aluno_pagamento_id'])
+      pagamento = Pagamento.find_by(id: transaction['aluno_pagamento_id'])
 
       pagamento.update(
         status: 'pago',
         data_pagamento: transaction['data_pagamento'],
         tipo: 'pix'
-      )
+      ) if pagamento.present?
     end
 
-    render json: "#{resposta['processed_transactions'].count} transações processadas com sucesso!"
+    render json: "#{nubank['processed_transactions'].count} transações processadas com sucesso!"
   end
 
   # melhorias: fazer blocos de catch try, fazer tabela de logs de requests
@@ -38,43 +34,29 @@ class NubanksController < ApplicationController
                 .where(turma_alunos: { status: 'ativo' })
                 .group('users.id')
 
-    qrcode = { pagamentos: [] }
+    mes = Month.find_by(pagamento_gerado: false)
 
-    mes = Month.where(pagamento_gerado: false).first
-
-    qnt_pagamentos = 0
-    users.each do |user|
-      pagamento = Pagamento.create!(
+    pagamentos = users.map do |user|
+      Pagamento.create!(
         user_id: user.id,
         dia_vencimento: user.dia_vencimento,
         valor: user.total_valor,
         month_id: mes.id,
         status: 'gerado'
       )
-
-      qrcode[:pagamentos] << {
-        aluno_pagamento_id: pagamento.id,
-        valor_mensalidade: 1
-      }
-
-      qnt_pagamentos += 1
     end
 
     mes.update(pagamento_gerado: true)
+    
+    qrcode = { pagamentos: pagamentos.map { |pagamento| { aluno_pagamento_id: pagamento.id, valor_mensalidade: 1 } } }
 
-    uri = 'https://ctis-api-lrzbakfyzq-uc.a.run.app/generate_payment_qrcode'
-    headers = { 'Content-Type' => 'application/json' }
-    response = HTTParty.post(uri, headers:, body: qrcode.to_json)
-
-    nubank_qrcodes = JSON.parse(response.body)
+    nubank_qrcodes = NubankService.coneect_qrcode(qrcode)
 
     nubank_qrcodes['pagamentos'].each do |qrcode|
       pagamento = Pagamento.find(qrcode['id'])
-      pagamento.update(
-        qrcode: qrcode['qrcode']
-      )
+      pagamento.update(qrcode: qrcode['qrcode'])
     end
 
-    render json: "Foram gerados #{qnt_pagamentos} pagamentos para o mês de #{mes.mes} de #{mes.ano} com sucesso"
+    render json: "Foram gerados #{pagamentos.size} pagamentos para o mês de #{mes.mes} de #{mes.ano} com sucesso"
   end
 end
