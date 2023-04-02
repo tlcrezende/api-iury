@@ -50,7 +50,7 @@ class NubanksController < ApplicationController
     
     qrcode = { pagamentos: pagamentos.map { |pagamento| { aluno_pagamento_id: pagamento.id, valor_mensalidade: 1 } } }
 
-    nubank_qrcodes = NubankService.coneect_qrcode(qrcode)
+    nubank_qrcodes = NubankService.connect_qrcode(qrcode)
 
     nubank_qrcodes['pagamentos'].each do |qrcode|
       pagamento = Pagamento.find(qrcode['id'])

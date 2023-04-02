@@ -6,7 +6,7 @@ class NubankService
     JSON.parse(Net::HTTP.get(uri))
   end
 
-  def self.coneect_qrcode(qrcode)
+  def self.connect_qrcode(qrcode)
     api_nubank_uri = 'https://ctis-api-lrzbakfyzq-uc.a.run.app/generate_payment_qrcode'
     headers = { 'Content-Type' => 'application/json' }
     response = HTTParty.post(api_nubank_uri, headers:, body: qrcode.to_json)
